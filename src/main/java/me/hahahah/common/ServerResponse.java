@@ -1,7 +1,11 @@
 package me.hahahah.common;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 import java.io.Serializable;
 
+@JsonSerialize(include = JsonSerialize. Inclusion.NON_NULL)
 public class ServerResponse<T> implements Serializable {
     private int status;
     private String msg;
@@ -27,7 +31,7 @@ public class ServerResponse<T> implements Serializable {
         this.data = data;
     }
 
-
+    @JsonIgnore
     public int getStatus() {
         return status;
     }
