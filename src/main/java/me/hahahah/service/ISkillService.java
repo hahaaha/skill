@@ -4,6 +4,8 @@ import me.hahahah.common.ServerResponse;
 import me.hahahah.pojo.Skill;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public interface ISkillService {
     ServerResponse<String> add(Skill skill);
@@ -14,5 +16,5 @@ public interface ISkillService {
 
     ServerResponse<List<Skill>> getChildrenParallelSkill(Integer id);
 
-    ServerResponse selectSkillAndChildrenById(Integer preId);
+    ServerResponse<Set<Map>> selectSkillAndChildrenById(Integer preId);
 }

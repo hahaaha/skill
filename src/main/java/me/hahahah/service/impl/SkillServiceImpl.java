@@ -1,6 +1,7 @@
 package me.hahahah.service.impl;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import me.hahahah.common.ServerResponse;
 import me.hahahah.dao.SkillMapper;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service("iSkillService")
@@ -87,21 +89,23 @@ public class SkillServiceImpl implements ISkillService {
         return ServerResponse.createBySuccess(skillList);
     }
 
-    public ServerResponse selectSkillAndChildrenById(Integer preId) {
-        Set<Skill> skillSet = Sets.newHashSet();
-        findChildSkill(skillSet,preId);
-
-        List<Integer> skillIdList = Lists.newArrayList();
-        if(preId != null) {
-            for(Skill skillItem: skillSet) {
-                skillIdList.add(skillItem.getId());
-            }
-        }
-        return ServerResponse.createBySuccess(skillIdList);
+    /**
+     * 获取一个技能及其所有的子节点的id
+     * @param preId
+     * @return
+     */
+    public ServerResponse<Set<Map>> selectSkillAndChildrenById(Integer preId) {
+        Map skillMap = Maps.newHashMap();
+        Set<Map> mapSet = findChildSkillInfo(skillMap,preId);
+        return ServerResponse.createBySuccess(mapSet);
     }
+//    public ServerResponse<Map<String,Skill>> selectSkillInfoAndChildrenById(Integer preId) {
+//        Map<String,Skill> skillMap = Maps.newHashMap();
+//
+//    }
 
     /**
-     * 获取一个元素下的所有元素
+     * 获取以preId为父元素的节点，并将其放入skillSet中
      * @param skillSet
      * @param preId
      * @return
@@ -112,10 +116,28 @@ public class SkillServiceImpl implements ISkillService {
             skillSet.add(skill);
         }
         List<Skill> skillList = skillMapper.selectSkillChildrenByPreId(preId);
-        for(Skill skillItem:skillList) {
+         for(Skill skillItem:skillList) {
             findChildSkill(skillSet,skillItem.getId());
         }
         return skillSet;
     }
+
+    private Set<Map> findChildSkillInfo(Map skillMap,Integer preId) {
+        Skill skill = skillMapper.selectByPrimaryKey(preId);
+        Set<Map> mapSet = Sets.newHashSet();
+        if(skill !=null) {
+            skillMap.put("id",skill.getId());
+            skillMap.put("pre_id",skill.getPreId());
+            skillMap.put("skill_name",skill.getSkillName());
+            skillMap.put("max_grade",skill.getMaxGrade());
+            mapSet.add(skillMap);
+        }
+        List<Skill> skillList = skillMapper.selectSkillChildrenByPreId(preId);
+        for(Skill skillItem: skillList) {
+            findChildSkillInfo(skillMap,skillItem.getId());
+        }
+        return mapSet;
+    }
+
 
 }

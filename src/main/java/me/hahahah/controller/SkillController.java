@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @Controller
 @RequestMapping("/skill/manage/")
@@ -60,7 +62,7 @@ public class SkillController {
 
     @RequestMapping("get_deep_child_skill.do")
     @ResponseBody
-    public ServerResponse<List<Skill>> getDeepChildSkill(Integer preId) {
+    public ServerResponse<Set<Map>> getDeepChildSkill(Integer preId) {
         return iSkillService.selectSkillAndChildrenById(preId);
     }
 
