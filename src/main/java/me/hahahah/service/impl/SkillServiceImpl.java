@@ -74,10 +74,15 @@ public class SkillServiceImpl implements ISkillService {
     }
 
 
+    /**
+     * 获取一个技能及其子元素
+     * @param preId
+     * @return
+     */
     public ServerResponse<List<Skill>> getChildrenParallelSkill(Integer preId) {
         List<Skill> skillList = skillMapper.selectSkillChildrenByPreId(preId);
         if(CollectionUtils.isEmpty(skillList)) {
-            System.out.println("未找到当前分类的子分类");
+            System.out.println("未找到当前分类的子技能");
         }
         return ServerResponse.createBySuccess(skillList);
     }
@@ -95,6 +100,12 @@ public class SkillServiceImpl implements ISkillService {
         return ServerResponse.createBySuccess(skillIdList);
     }
 
+    /**
+     * 获取一个元素下的所有元素
+     * @param skillSet
+     * @param preId
+     * @return
+     */
     private Set<Skill> findChildSkill(Set<Skill> skillSet,Integer preId) {
         Skill skill = skillMapper.selectByPrimaryKey(preId);
         if(skill !=null) {
