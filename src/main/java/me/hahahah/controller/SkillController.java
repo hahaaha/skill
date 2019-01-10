@@ -62,7 +62,7 @@ public class SkillController {
 
     @RequestMapping("get_deep_child_skill.do")
     @ResponseBody
-    public ServerResponse<Set<Map>> getDeepChildSkill(Integer preId) {
+    public ServerResponse<Map> getDeepChildSkill(Integer preId) {
         return iSkillService.selectSkillAndChildrenById(preId);
     }
 

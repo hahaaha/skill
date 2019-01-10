@@ -16,5 +16,5 @@ public interface ISkillService {
 
     ServerResponse<List<Skill>> getChildrenParallelSkill(Integer id);
 
-    ServerResponse<Set<Map>> selectSkillAndChildrenById(Integer preId);
+    ServerResponse<Map> selectSkillAndChildrenById(Integer preId);
 }

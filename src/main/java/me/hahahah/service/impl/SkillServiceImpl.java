@@ -94,9 +94,9 @@ public class SkillServiceImpl implements ISkillService {
      * @param preId
      * @return
      */
-    public ServerResponse<Set<Map>> selectSkillAndChildrenById(Integer preId) {
-        Map skillMap = Maps.newHashMap();
-        Set<Map> mapSet = findChildSkillInfo(skillMap,preId);
+    public ServerResponse<Map> selectSkillAndChildrenById(Integer preId) {
+        Map mapSet = findChildSkillInfo(preId);
+        System.out.println(mapSet);
         return ServerResponse.createBySuccess(mapSet);
     }
 //    public ServerResponse<Map<String,Skill>> selectSkillInfoAndChildrenById(Integer preId) {
@@ -122,21 +122,21 @@ public class SkillServiceImpl implements ISkillService {
         return skillSet;
     }
 
-    private Set<Map> findChildSkillInfo(Map skillMap,Integer preId) {
+    private Map findChildSkillInfo(Integer preId) {
         Skill skill = skillMapper.selectByPrimaryKey(preId);
-        Set<Map> mapSet = Sets.newHashSet();
+        Map map = Maps.newLinkedHashMap();
         if(skill !=null) {
-            skillMap.put("id",skill.getId());
-            skillMap.put("pre_id",skill.getPreId());
-            skillMap.put("skill_name",skill.getSkillName());
-            skillMap.put("max_grade",skill.getMaxGrade());
-            mapSet.add(skillMap);
+            map.put("id",skill.getId());
+            map.put("pre_id",skill.getPreId());
+            map.put("skill_name",skill.getSkillName());
+            map.put("max_grade",skill.getMaxGrade());
+            List<Skill> skillList = skillMapper.selectSkillChildrenByPreId(preId);
+            for(Skill skillItem: skillList) {
+                map.put("data",findChildSkillInfo(skillItem.getId()));
+            }
+
         }
-        List<Skill> skillList = skillMapper.selectSkillChildrenByPreId(preId);
-        for(Skill skillItem: skillList) {
-            findChildSkillInfo(skillMap,skillItem.getId());
-        }
-        return mapSet;
+        return map;
     }
 
 
