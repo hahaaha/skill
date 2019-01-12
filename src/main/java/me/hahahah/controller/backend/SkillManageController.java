@@ -1,4 +1,4 @@
-package me.hahahah.controller;
+package me.hahahah.controller.backend;
 
 import me.hahahah.common.ServerResponse;
 import me.hahahah.pojo.Skill;
@@ -10,11 +10,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 @Controller
 @RequestMapping("/skill/manage/")
-public class SkillController {
+public class SkillManageController {
     @Autowired
     private ISkillService iSkillService;
 
