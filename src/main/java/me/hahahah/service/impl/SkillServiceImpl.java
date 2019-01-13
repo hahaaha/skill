@@ -94,10 +94,11 @@ public class SkillServiceImpl implements ISkillService {
      * @param preId
      * @return
      */
-    public ServerResponse<Map> selectSkillAndChildrenById(Integer preId) {
+    public ServerResponse<List<Map>> selectSkillAndChildrenById(Integer preId) {
         Map mapSet = findChildSkillInfo(preId);
-        System.out.println(mapSet);
-        return ServerResponse.createBySuccess(mapSet);
+        List<Map> mapList = Lists.newArrayList();
+        mapList.add(mapSet);
+        return ServerResponse.createBySuccess(mapList);
     }
 //    public ServerResponse<Map<String,Skill>> selectSkillInfoAndChildrenById(Integer preId) {
 //        Map<String,Skill> skillMap = Maps.newHashMap();
@@ -130,11 +131,12 @@ public class SkillServiceImpl implements ISkillService {
             map.put("pre_id",skill.getPreId());
             map.put("skill_name",skill.getSkillName());
             map.put("max_grade",skill.getMaxGrade());
-            List<Skill> skillList = skillMapper.selectSkillChildrenByPreId(preId);
-            for(Skill skillItem: skillList) {
-                map.put("data",findChildSkillInfo(skillItem.getId()));
-            }
-
+        }
+        List<Skill> skillList = skillMapper.selectSkillChildrenByPreId(preId);
+        Set set = Sets.newLinkedHashSet();
+        for(Skill skillItem: skillList) {
+            set.add(findChildSkillInfo(skillItem.getId()));
+            map.put("data",set);
         }
         return map;
     }
