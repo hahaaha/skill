@@ -3,7 +3,8 @@ package me.hahahah.common;
 public enum ResponseCode {
     SUCCESS(0,"SUCCESS"),
     ERROR(1,"ERROR"),
-    ILLEGAL_ARGUMENT(2,"ILLEGAL_ARGUMENT");
+    ILLEGAL_ARGUMENT(2,"ILLEGAL_ARGUMENT"),
+    NEED_LONIN(10,"NEED_LOGIN");
 
     private final int code;
     private final String desc;

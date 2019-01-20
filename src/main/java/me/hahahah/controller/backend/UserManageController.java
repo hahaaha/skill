@@ -1,5 +1,6 @@
 package me.hahahah.controller.backend;
 
+import me.hahahah.common.Const;
 import me.hahahah.common.ServerResponse;
 import me.hahahah.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,12 @@ public class UserManageController {
     @RequestMapping("login.do")
     @ResponseBody
     public ServerResponse login(HttpSession session) {
-        return iUserService.login(session.getId());
+        ServerResponse response = iUserService.login(session.getId());
+
+        if(response.getMsg().equals("登陆成功")) {
+            session.setAttribute(Const.CURRENT_USER,response.getData());
+        }
+        return response;
     }
+
 }

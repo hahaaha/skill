@@ -54,4 +54,6 @@ public interface UserMapper {
     int checkUsername(String username);
 
     int updateTime(String username);
+
+    User selectByUsername(String username);
 }
