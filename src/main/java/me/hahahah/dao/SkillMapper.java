@@ -57,4 +57,6 @@ public interface SkillMapper {
 
     List<Skill> selectSkillChildrenByPreId(Integer preId);
 
+    List<Skill> selectList();
+
 }

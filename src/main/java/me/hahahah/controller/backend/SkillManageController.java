@@ -6,8 +6,10 @@ import me.hahahah.service.ISkillService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Map;
 
@@ -65,9 +67,4 @@ public class SkillManageController {
         return iSkillService.selectSkillAndChildrenById(preId);
     }
 
-    @RequestMapping("list.do")
-    @ResponseBody
-    public ServerResponse<String> list() {
-        return ServerResponse.createBySuccess();
-    }
 }

@@ -167,4 +167,11 @@
     from allskill
     where pre_id = #{preId}
   </select>
+
+  <select id="selectList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from allskill
+    order by id asc
+  </select>
 </mapper>

@@ -1,5 +1,7 @@
 package me.hahahah.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import me.hahahah.common.ServerResponse;
 import me.hahahah.dao.SkillByUserMapper;
 import me.hahahah.dao.UserMapper;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 
 @Service("iUserService")
 public class UserServiceImpl implements IUserService {
@@ -66,6 +69,13 @@ public class UserServiceImpl implements IUserService {
         skillByUser.setSkillId(skillId);
         skillByUser.setGrade(1);
         return skillByUserMapper.insert(skillByUser);
+    }
+
+    public ServerResponse<PageInfo> getUserList(int pageNum, int pageSize) {
+        PageHelper.startPage(pageNum,pageSize);
+        List<User> userList =  userMapper.selectList();
+        PageInfo pageResult = new PageInfo(userList);
+        return ServerResponse.createBySuccess(pageResult);
     }
 
 }

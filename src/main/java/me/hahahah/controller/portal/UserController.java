@@ -33,4 +33,6 @@ public class UserController {
         }
         return iUserService.add(user.getId(),skill_id);
     }
+
+
 }
